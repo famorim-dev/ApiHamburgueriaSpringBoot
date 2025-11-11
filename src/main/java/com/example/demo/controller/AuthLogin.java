@@ -43,10 +43,10 @@ public class AuthLogin {
 
     @PostMapping("/registro")
     public ResponseEntity registroUsuario(@RequestBody @Valid AuthRegistroDTO data){
-        if(this.usuarioRepository.findByEmail(data.email()) != null) return ResponseEntity.badRequest().build(); // Se nao existir nenhum usuario(email) crie um com esse email
+        if(this.usuarioRepository.findByEmail(data.email()) != null) return ResponseEntity.badRequest().build();
 
         String senhaCriptografada = new BCryptPasswordEncoder().encode(data.senha());
-        Usuario usuario = new Usuario(data.email(), senhaCriptografada, Role.USER);
+        Usuario usuario = new Usuario(data.nome(), data.email(), senhaCriptografada, Role.USER);
 
         this.usuarioRepository.save(usuario);
         return ResponseEntity.ok().build();

@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -21,11 +22,24 @@ public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
+    @Column(nullable = false)
+    private String nome;
+
+    @Column(nullable = false,  unique = true)
     private String email;
+
+    @Column(nullable = false)
     private String senha;
+
+    @Column(nullable = false)
     private Role role;
 
-    public Usuario(String email, String senha, Role role) {
+    @Column(name = "data_criacao", nullable = false, updatable = false)
+    private LocalDateTime dataCriacao =  LocalDateTime.now();
+
+    public Usuario(String nome, String email, String senha, Role role) {
+        this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.role = role;
