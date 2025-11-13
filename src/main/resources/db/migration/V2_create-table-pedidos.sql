@@ -1,5 +1,6 @@
 CREATE TABLE pedidos(
     id TEXT PRIMARY KEY NOT NULL,
+    itens TEXT NOT NULL,
     usuario_id TEXT FOREIGN KEY,
     valor_total DECIMAL(10, 2) NOT NULL,
     forma_pagamento TEXT NOT NULL,

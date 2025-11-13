@@ -36,6 +36,7 @@ public class ConfigSeguranca {
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/registro").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/esqueceu").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/pedido/registro").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(filtroToken, UsernamePasswordAuthenticationFilter.class)
                 .build();

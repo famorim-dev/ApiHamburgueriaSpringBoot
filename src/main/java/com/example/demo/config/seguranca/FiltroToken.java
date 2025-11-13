@@ -28,7 +28,7 @@ public class FiltroToken extends OncePerRequestFilter {
         var token = this.token(request);
         if (token != null){
             var login = tokenService.validarToken(token);
-            UserDetails user = usuarioRepository.findByEmail(login);
+            UserDetails user = usuarioRepository.findByEmail(login).orElseThrow(() -> new RuntimeException("Usuario ou senha invalido"));
 
             var auth =  new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(auth);

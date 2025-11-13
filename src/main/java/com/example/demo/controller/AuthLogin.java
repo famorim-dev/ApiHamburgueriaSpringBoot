@@ -43,7 +43,9 @@ public class AuthLogin {
 
     @PostMapping("/registro")
     public ResponseEntity registroUsuario(@RequestBody @Valid AuthRegistroDTO data){
-        if(this.usuarioRepository.findByEmail(data.email()) != null) return ResponseEntity.badRequest().build();
+        if (usuarioRepository.findByEmail(data.email()).isPresent()) {
+            return ResponseEntity.badRequest().body("Não foi possivel cadastrar seu Usuario");
+        }
 
         String senhaCriptografada = new BCryptPasswordEncoder().encode(data.senha());
         Usuario usuario = new Usuario(data.nome(), data.email(), senhaCriptografada, Role.USER);
@@ -54,7 +56,7 @@ public class AuthLogin {
 
     @PostMapping("/esqueceu")
     public ResponseEntity esqueceuSenha(@RequestBody @Valid EsqueceuSenhaDTO data){
-        Usuario usuario = (Usuario) this.usuarioRepository.findByEmail(data.email());
+        Usuario usuario = (Usuario) this.usuarioRepository.findByEmail(data.email()).orElseThrow(() -> new RuntimeException("Usuario invalido"));
         if (usuario == null) return ResponseEntity.notFound().build();
 
         if (!usuario.getEmail().equalsIgnoreCase(data.email())) return ResponseEntity.ok().build();

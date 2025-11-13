@@ -1,13 +1,16 @@
 package com.example.demo.model;
 
+import com.example.demo.dto.ItemPedidoDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Table(name = "pedidos")
@@ -22,9 +25,13 @@ public class Pedidos{
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private String itens;
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "jsonb")
+    private List<ItemPedidoDTO> itens;
 
-    private String usuario_id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
     private Double valor_total;
 
