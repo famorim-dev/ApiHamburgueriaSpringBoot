@@ -1,4 +1,4 @@
-package com.example.demo.service.seguranca;
+package com.example.demo.service.pedidos;
 
 import com.example.demo.dto.ItemPedidoDTO;
 import com.example.demo.dto.PedidosDTO;
@@ -48,7 +48,7 @@ public class PedidosService {
         Pedidos pedidos = new Pedidos();
         pedidos.setUsuario(usuario);
         pedidos.setItens(data.itens());
-        pedidos.setValor_total(data.valor_total());
+        pedidos.setValor_total(valorTotal);
         pedidos.setForma_pagamento(data.forma_pagamento());
         pedidos.setEndereco(data.endereco());
 

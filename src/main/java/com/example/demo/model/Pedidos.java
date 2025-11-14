@@ -39,6 +39,6 @@ public class Pedidos{
 
     private String endereco;
 
-    @Column(name = "data_criacao", nullable = false, updatable = false)
+    @Column(name = "data_pedido", nullable = false, updatable = false)
     private LocalDateTime dataCriacao =  LocalDateTime.now();
 }

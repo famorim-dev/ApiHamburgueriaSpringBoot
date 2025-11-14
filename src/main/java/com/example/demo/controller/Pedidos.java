@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.PedidosDTO;
-import com.example.demo.service.seguranca.PedidosService;
+import com.example.demo.service.pedidos.PedidosService;
 import com.example.demo.service.seguranca.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
