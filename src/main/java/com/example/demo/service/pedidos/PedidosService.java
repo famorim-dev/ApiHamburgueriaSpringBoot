@@ -2,7 +2,7 @@ package com.example.demo.service.pedidos;
 
 import com.example.demo.dto.ItemPedidoDTO;
 import com.example.demo.dto.PedidosDTO;
-import com.example.demo.model.Pedidos;
+import com.example.demo.model.PedidosEntity;
 import com.example.demo.model.Usuario;
 import com.example.demo.repository.PedidosRepository;
 import com.example.demo.repository.UsuarioRepository;
@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -45,14 +46,21 @@ public class PedidosService {
             valorTotal += precoUnitario * item.quantidade();
         }
 
-        Pedidos pedidos = new Pedidos();
-        pedidos.setUsuario(usuario);
-        pedidos.setItens(data.itens());
-        pedidos.setValor_total(valorTotal);
-        pedidos.setForma_pagamento(data.forma_pagamento());
-        pedidos.setEndereco(data.endereco());
+        PedidosEntity pedidosEntity = new PedidosEntity();
+        pedidosEntity.setUsuario(usuario);
+        pedidosEntity.setItens(data.itens());
+        pedidosEntity.setValor_total(valorTotal);
+        pedidosEntity.setForma_pagamento(data.forma_pagamento());
+        pedidosEntity.setEndereco(data.endereco());
 
-        Pedidos pedidosSalvo = pedidosRepository.save(pedidos);
-        return new PedidosDTO(pedidosSalvo.getItens(), pedidosSalvo.getForma_pagamento(), pedidosSalvo.getValor_total(), pedidosSalvo.getEndereco(), pedidosSalvo.getUsuario().getId().toString());
+        PedidosEntity pedidosEntitySalvo = pedidosRepository.save(pedidosEntity);
+        return new PedidosDTO(pedidosEntitySalvo.getItens(), pedidosEntitySalvo.getForma_pagamento(), pedidosEntitySalvo.getValor_total(), pedidosEntitySalvo.getEndereco(), pedidosEntitySalvo.getUsuario().getId().toString());
+    }
+
+    public List<PedidosEntity> listarPedidosPorEmail(String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        return pedidosRepository.findByUsuarioId(usuario.getId());
     }
 }

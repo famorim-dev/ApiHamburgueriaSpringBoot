@@ -19,7 +19,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Pedidos{
+public class PedidosEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
