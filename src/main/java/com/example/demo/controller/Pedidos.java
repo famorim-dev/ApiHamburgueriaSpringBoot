@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.BuscarTodosPedidosDTO;
 import com.example.demo.dto.PedidosDTO;
 import com.example.demo.model.PedidosEntity;
 import com.example.demo.model.Usuario;
+import com.example.demo.repository.PedidosRepository;
 import com.example.demo.service.pedidos.PedidosService;
 import com.example.demo.service.seguranca.TokenService;
 import jakarta.validation.Valid;
@@ -18,9 +20,11 @@ import java.util.List;
 public class Pedidos {
 
     private final PedidosService pedidosService;
+    private final PedidosRepository pedidosRepository;
 
-    public Pedidos(PedidosService pedidosService, TokenService tokenService) {
+    public Pedidos(PedidosRepository  pedidosRepository,PedidosService pedidosService, TokenService tokenService) {
         this.pedidosService = pedidosService;
+        this.pedidosRepository = pedidosRepository;
     }
 
     @PostMapping("/registro")
@@ -36,6 +40,22 @@ public class Pedidos {
         Usuario usuario = (Usuario) authentication.getPrincipal();
         String email = usuario.getEmail();
         List<PedidosEntity> pedidos = pedidosService.listarPedidosPorEmail(email);
+        return ResponseEntity.status(HttpStatus.OK).body(pedidos);
+    }
+
+    @GetMapping("buscar-todos")
+    public ResponseEntity<List<BuscarTodosPedidosDTO>> buscarTodosPedidos() {
+        List<BuscarTodosPedidosDTO> pedidos = pedidosRepository.findAll()
+                .stream()
+                .map(p -> new BuscarTodosPedidosDTO(
+                        p.getItens(),
+                        p.getUsuario().getEmail(),
+                        p.getValor_total(),
+                        p.getForma_pagamento(),
+                        p.getEndereco(),
+                        p.getDataCriacao()
+                ))
+                .toList();
         return ResponseEntity.status(HttpStatus.OK).body(pedidos);
     }
 }

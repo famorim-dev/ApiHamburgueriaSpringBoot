@@ -38,6 +38,7 @@ public class ConfigSeguranca {
                         .requestMatchers(HttpMethod.POST, "/auth/esqueceu").permitAll()
                         .requestMatchers(HttpMethod.POST, "/pedido/registro").authenticated()
                         .requestMatchers(HttpMethod.GET, "/pedido/buscar").authenticated()
+                        .requestMatchers(HttpMethod.GET,"/pedido/buscar-todos").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(filtroToken, UsernamePasswordAuthenticationFilter.class)
                 .build();
