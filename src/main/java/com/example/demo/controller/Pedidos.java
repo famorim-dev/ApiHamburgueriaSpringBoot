@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.AtualizarStatusPedidoDTO;
 import com.example.demo.dto.BuscarTodosPedidosDTO;
 import com.example.demo.dto.PedidosDTO;
 import com.example.demo.model.PedidosEntity;
@@ -14,6 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("pedido")
@@ -51,11 +54,27 @@ public class Pedidos {
                         p.getItens(),
                         p.getUsuario().getEmail(),
                         p.getValor_total(),
+                        p.getStatus(),
                         p.getForma_pagamento(),
                         p.getEndereco(),
                         p.getDataCriacao()
                 ))
                 .toList();
         return ResponseEntity.status(HttpStatus.OK).body(pedidos);
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity editarStatus(@PathVariable UUID id, @RequestBody @Valid AtualizarStatusPedidoDTO dto){
+        Optional<PedidosEntity> pedidoOpt = pedidosRepository.findById(id);
+
+        if (pedidoOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        PedidosEntity pedido = pedidoOpt.get();
+        pedido.setStatus(dto.status());
+        pedidosRepository.save(pedido);
+
+        return ResponseEntity.ok(new AtualizarStatusPedidoDTO(pedido.getStatus()));
     }
 }

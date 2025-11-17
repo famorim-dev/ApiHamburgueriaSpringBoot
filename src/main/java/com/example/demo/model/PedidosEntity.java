@@ -33,6 +33,10 @@ public class PedidosEntity {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "status_pedido", nullable = false)
+    private StatusPedido status = StatusPedido.processando;
+
     private Double valor_total;
 
     private String forma_pagamento;
