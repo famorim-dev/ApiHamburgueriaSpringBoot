@@ -19,10 +19,13 @@ public class PedidosService {
     private final UsuarioRepository usuarioRepository;
 
     private static final Map<String, Double> CARDAPIO = Map.of(
-            "BurguerComum", 15.0,
-            "burguerBox", 25.0,
-            "BatataMedia", 10.0,
-            "Refrigerante", 8.0
+            "Hamburguer duplo", 22.90,
+            "Hamburguer salad", 28.90,
+            "Hamburguer smash", 35.90,
+            "Hamburguer salad queijo", 29.90,
+            "Hamburguer queijo + batata", 39.90,
+            "Coca lata", 5.90,
+            "Guaraná lata", 5.90
     );
 
     public PedidosService(PedidosRepository pedidosRepository, UsuarioRepository usuarioRepository){
