@@ -39,7 +39,7 @@ public class ConfigSeguranca {
                         .requestMatchers(HttpMethod.POST, "/pedido/registro").authenticated()
                         .requestMatchers(HttpMethod.GET, "/pedido/buscar").authenticated()
                         .requestMatchers(HttpMethod.GET,"/pedido/buscar-todos").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PATCH, "/pedido/{id}/status").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/pedido/*/status").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(filtroToken, UsernamePasswordAuthenticationFilter.class)
                 .build();
@@ -51,7 +51,7 @@ public class ConfigSeguranca {
 
         configuration.setAllowedOrigins(List.of("http://localhost:5501", "http://127.0.0.1:5501"));
 
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
 
         configuration.setAllowedHeaders(List.of("*"));
 
