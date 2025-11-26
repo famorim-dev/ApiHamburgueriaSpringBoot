@@ -36,4 +36,29 @@ class PedidoTeste extends BaseTest {
                         .header("Authorization", "Bearer " + token)
         ).andExpect(status().isOk());
     }
+
+    @Test
+    void buscarTodosPedido() throws Exception {
+
+        mockMvc.perform(
+                get("/pedido/buscar-todos")
+                        .header("Authorization", "Bearer " + token)
+        ).andExpect(status().isOk());
+    }
+
+    @Test
+    void editarStatusPedido() throws Exception {
+
+        String json = """
+                {
+                    "status":"preparando"
+                }
+                """;
+
+        mockMvc.perform(patch("/pedido/d2648cf0-9a96-4874-abcb-fd6090915f81/status")
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json)
+        ).andExpect(status().isOk());
+    }
 }
