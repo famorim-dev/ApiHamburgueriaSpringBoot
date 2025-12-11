@@ -1,7 +1,9 @@
 package com.example.demo.service.pedidos;
 
+import com.example.demo.dto.BuscarTodosPedidosDTO;
 import com.example.demo.dto.ItemPedidoDTO;
 import com.example.demo.dto.PedidosDTO;
+import com.example.demo.mapper.pedidos.PedidosMapper;
 import com.example.demo.model.PedidosEntity;
 import com.example.demo.model.Usuario;
 import com.example.demo.repository.PedidosRepository;
@@ -59,10 +61,9 @@ public class PedidosService {
         return new PedidosDTO(pedidosEntitySalvo.getItens(), pedidosEntitySalvo.getForma_pagamento(), pedidosEntitySalvo.getValor_total(), pedidosEntitySalvo.getEndereco(), pedidosEntitySalvo.getUsuario().getId().toString());
     }
 
-    public List<PedidosEntity> listarPedidosPorEmail(String email) {
-        Usuario usuario = usuarioRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    public List<BuscarTodosPedidosDTO> listarPedidosPorUsuario() {
+        var auth = usuarioLogadoService.getUsuarioLogado();
 
-        return pedidosRepository.findByUsuarioId(usuario.getId());
+        return pedidosRepository.findByUsuarioId(auth.getId()).stream().map(PedidosMapper :: mapearTodosPedidos).toList();
     }
 }
