@@ -6,6 +6,7 @@ import com.example.demo.model.PedidosEntity;
 import com.example.demo.model.Usuario;
 import com.example.demo.repository.PedidosRepository;
 import com.example.demo.repository.UsuarioRepository;
+import com.example.demo.service.seguranca.UsuarioLogadoService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.Map;
 public class PedidosService {
     private final PedidosRepository pedidosRepository;
     private final UsuarioRepository usuarioRepository;
+    private final UsuarioLogadoService usuarioLogadoService;
 
     private static final Map<String, Double> CARDAPIO = Map.of(
             "Hamburguer duplo", 22.90,
@@ -28,17 +30,14 @@ public class PedidosService {
             "Guaraná lata", 5.90
     );
 
-    public PedidosService(PedidosRepository pedidosRepository, UsuarioRepository usuarioRepository){
+    public PedidosService(PedidosRepository pedidosRepository, UsuarioRepository usuarioRepository, UsuarioLogadoService usuarioLogadoService){
         this.pedidosRepository = pedidosRepository;
         this.usuarioRepository = usuarioRepository;
+        this.usuarioLogadoService = usuarioLogadoService;
     }
 
     public PedidosDTO registrarPedidos(PedidosDTO data){
-        Authentication token = SecurityContextHolder.getContext().getAuthentication();
-        String email = token.getName();
-
-        Usuario usuario = (Usuario) usuarioRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("usuário invalido"));
+        var auth = usuarioLogadoService.getUsuarioLogado();
 
         double valorTotal = 0;
         for (ItemPedidoDTO item : data.itens()){
@@ -50,7 +49,7 @@ public class PedidosService {
         }
 
         PedidosEntity pedidosEntity = new PedidosEntity();
-        pedidosEntity.setUsuario(usuario);
+        pedidosEntity.setUsuario(auth);
         pedidosEntity.setItens(data.itens());
         pedidosEntity.setValor_total(valorTotal);
         pedidosEntity.setForma_pagamento(data.forma_pagamento());
