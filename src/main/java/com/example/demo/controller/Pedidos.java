@@ -7,7 +7,6 @@ import com.example.demo.dto.PedidosDTO;
 import com.example.demo.mapper.pedidos.PedidosMapper;
 import com.example.demo.model.PedidosEntity;
 import com.example.demo.model.StatusPedido;
-import com.example.demo.model.Usuario;
 import com.example.demo.repository.PedidosRepository;
 import com.example.demo.service.pedidos.PedidosService;
 import com.example.demo.service.seguranca.TokenService;
@@ -15,7 +14,6 @@ import com.example.demo.service.seguranca.UsuarioLogadoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

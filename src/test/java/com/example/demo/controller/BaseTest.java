@@ -25,7 +25,7 @@ public abstract class BaseTest {
     void loginBeforeEach() throws Exception {
 
         String body = """
-                {"email":"juninho@gmail.com", "senha":"123456"}
+                {"email":"Felipe@gmail.com", "senha":"123"}
                 """;
 
         var result = mockMvc.perform(

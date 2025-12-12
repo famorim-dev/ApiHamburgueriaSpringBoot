@@ -55,7 +55,7 @@ class PedidoTeste extends BaseTest {
                 }
                 """;
 
-        mockMvc.perform(patch("/pedido/d2648cf0-9a96-4874-abcb-fd6090915f81/status")
+        mockMvc.perform(patch("/pedido/3560a027-eea7-48ab-8993-f6b724b0e516/status")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json)
