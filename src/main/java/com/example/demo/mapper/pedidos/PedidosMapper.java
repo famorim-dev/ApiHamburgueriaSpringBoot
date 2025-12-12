@@ -8,6 +8,7 @@ public class PedidosMapper {
     public static BuscarTodosPedidosDTO mapearTodosPedidos(PedidosEntity pedidosEntity) {
        return new BuscarTodosPedidosDTO(
                pedidosEntity.getId(),
+               pedidosEntity.getUsuario().getNome(),
                pedidosEntity.getItens(),
                pedidosEntity.getUsuario().getEmail(),
                pedidosEntity.getValor_total(),
