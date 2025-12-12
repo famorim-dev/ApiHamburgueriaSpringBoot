@@ -7,6 +7,7 @@ import com.example.demo.model.PedidosEntity;
 public class PedidosMapper {
     public static BuscarTodosPedidosDTO mapearTodosPedidos(PedidosEntity pedidosEntity) {
        return new BuscarTodosPedidosDTO(
+               pedidosEntity.getId(),
                pedidosEntity.getItens(),
                pedidosEntity.getUsuario().getEmail(),
                pedidosEntity.getValor_total(),

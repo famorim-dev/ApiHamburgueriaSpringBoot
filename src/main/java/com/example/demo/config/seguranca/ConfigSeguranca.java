@@ -39,6 +39,7 @@ public class ConfigSeguranca {
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/pedido/registro").authenticated()
                         .requestMatchers(HttpMethod.GET, "/pedido/buscar").authenticated()
+                        .requestMatchers(HttpMethod.PATCH, "/pedido/*/cancelado").authenticated()
                         .requestMatchers(HttpMethod.GET,"/pedido/buscar-todos").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PATCH, "/pedido/*/status").hasRole("ADMIN")
                         .anyRequest().authenticated())

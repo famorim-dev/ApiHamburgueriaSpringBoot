@@ -2,9 +2,11 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.AtualizarStatusPedidoDTO;
 import com.example.demo.dto.BuscarTodosPedidosDTO;
+import com.example.demo.dto.CancelarPedidoDTO;
 import com.example.demo.dto.PedidosDTO;
 import com.example.demo.mapper.pedidos.PedidosMapper;
 import com.example.demo.model.PedidosEntity;
+import com.example.demo.model.StatusPedido;
 import com.example.demo.model.Usuario;
 import com.example.demo.repository.PedidosRepository;
 import com.example.demo.service.pedidos.PedidosService;
@@ -54,6 +56,20 @@ public class Pedidos {
         return ResponseEntity.status(HttpStatus.OK).body(pedidos);
     }
 
+    @PatchMapping("/{id}/cancelado")
+    public ResponseEntity cancelarPedido(@PathVariable UUID id, @RequestBody @Valid CancelarPedidoDTO dto){
+        Optional<PedidosEntity> pedidoOpt = pedidosRepository.findById(id);
+
+        if (pedidoOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        PedidosEntity pedido = pedidoOpt.get();
+        pedido.setStatus(StatusPedido.cancelado);
+        pedidosRepository.save(pedido);
+
+        return ResponseEntity.ok(new AtualizarStatusPedidoDTO(pedido.getStatus()));
+    }
     @PatchMapping("/{id}/status")
     public ResponseEntity editarStatus(@PathVariable UUID id, @RequestBody @Valid AtualizarStatusPedidoDTO dto){
         Optional<PedidosEntity> pedidoOpt = pedidosRepository.findById(id);
